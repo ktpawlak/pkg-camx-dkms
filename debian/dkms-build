@@ -7,7 +7,12 @@ set -euo pipefail
 
 KERNEL_VER="${1}"
 BUILD_DIR="$(pwd)"
-KERNEL_BUILD="/lib/modules/${KERNEL_VER}/build"
+KERNEL_BUILD="${5:-/lib/modules/${KERNEL_VER}/build}"
+
+if [ ! -d "${KERNEL_BUILD}" ]; then
+    echo "ERROR: kernel build directory '${KERNEL_BUILD}' does not exist" >&2
+    exit 1
+fi
 
 {
     echo "#define CAMERA_COMPILE_TIME \"$(date)\""
